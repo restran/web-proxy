@@ -1,5 +1,4 @@
 # 基于 Tornado 实现的 Web 站点反向代理
----
 
 使用 Python 编写，基于 Tornado 框架实现。
 
