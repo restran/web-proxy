@@ -1,6 +1,17 @@
 # 基于 Tornado 实现的 Web 站点反向代理
 
-使用 Python 编写，基于 Tornado 框架实现。
+因为一个奇怪的需求，使用 Python 和 Tornado 框架实现了一个 Web 站点的反向代理。实现的功能是这样：
+
+1. 假设这个网站的地址是 http://www.example.com
+2. 访问 http://www.example.com/.site.backend_site0/，访问的是 backend_site0，这个网站可以是部署在内网的某个站点（外网当然也是可以）。
+3. 访问 http://www.example.com/.site.backend_site1/，访问另外一个站点 backend_site1
+
+怎么通过一个公共的站点反向代理访问后端的多个站点，当时的讨论帖在[这里][1]，我采用的是：
+
+1. 在url中添加前缀 `.site.`，第一次访问的时候使用 http://www.example.com/.site.backend_site/
+2. 服务端识别出请求的后端站点 `backend_site` 后，会设置 Cookie，`.site = backend_site`，后续的访问会根据Cookie来识别出来。
+3. 当访问另外一个网站 http://www.example.com/.site.backend_site1/，这时候，服务端会清除旧的 Cookie，并设置新的 Cookie，`.site = backend_site1`，这样就切换到新的站点 `backend_site1`
+4. 启用页面内容替换，保证页面内的内网IP地址转换成反向代理的地址。例如后端站点 backend_site0 的地址是 http://10.1.2.3/，页面内有链接 http://10.1.2.3/img/a.png，将其替换成  /.site.backend_site0/img/a.png
 
 ## 环境需求
 
