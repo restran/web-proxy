@@ -13,6 +13,7 @@
 3. 当访问另外一个网站 http://www.example.com/.site.backend_site1/，这时候，服务端会清除旧的 Cookie，并设置新的 Cookie，`.site = backend_site1`，这样就切换到新的站点 `backend_site1`
 4. 启用页面内容替换，保证页面内的内网IP地址转换成反向代理的地址。例如后端站点 backend_site0 的地址是 http://10.1.2.3/，页面内有链接 http://10.1.2.3/img/a.png，将其替换成  /.site.backend_site0/img/a.png
 
+
 ## 环境需求
 
 Python 2.7
@@ -32,7 +33,7 @@ Tornado 4.0
 
 ## CentOS 7.0 部署
 
-Tornado 的部署可以参照[这里][1]的教程。通过启动多个 Tornado 实例，来避免调用到同步函数块，导致阻塞住，无法响应其他用户的请求。使用 supervisor 来启动 Tornado Server，并使用 Nginx 作为 Web 服务器，反向代理后端的这些 Tornado 实例。
+Tornado 的部署可以参照[这里][2]的教程。通过启动多个 Tornado 实例，来避免调用到同步函数块，导致阻塞住，无法响应其他用户的请求。使用 supervisor 来启动 Tornado Server，并使用 Nginx 作为 Web 服务器，反向代理后端的这些 Tornado 实例。
 
 
 ### 修改配置文件 settings.py
@@ -146,5 +147,5 @@ server {
 URL 访问控制，访问列表
 
 
-
-  [1]: http://mirrors.segmentfault.com/itt2zh/ch8.html
+  [1]: http://www.v2ex.com/t/146552#reply24
+  [2]: http://mirrors.segmentfault.com/itt2zh/ch8.html
