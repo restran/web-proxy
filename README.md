@@ -2,7 +2,7 @@
 
 因为一个奇怪的需求，使用 Python 和 Tornado 框架实现了一个 Web 站点的反向代理。实现的功能是这样：
 
-1. 假设这个网站的地址是 http://www.example.com
+1. 假设这个反向代理网站的地址是 http://www.example.com
 2. 访问 http://www.example.com/.site.backend_site0/，访问的是 backend_site0，这个网站可以是部署在内网的某个站点（外网当然也是可以）。
 3. 访问 http://www.example.com/.site.backend_site1/，访问另外一个站点 backend_site1
 
