@@ -12,7 +12,7 @@ class SubsFilterRules():
 
     def __init__(self, re_uri, re_src, str_dst):
         # . 表示匹配除换行符以外的任意字符
-        self.re_uri = re_uri  # 正则表达式，要替换的页面
+        self.re_uri = re_uri  # 正则表达式，要替换的页面URI
         self.re_src = re_src  # 匹配的正则表达式
         self.str_dst = str_dst  # 替换后的目标字符串
 

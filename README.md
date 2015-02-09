@@ -42,7 +42,8 @@ Tornado 的部署可以参照[这里][1]的教程。通过启动多个 Tornado �
 forward_list = {
     "baidu": BackendSite('baidu', 'http://www.baidu.com', 'www.baidu.com', []),
     "douban": BackendSite('douban', 'http://www.douban.com', 'www.douban.com', [
-        # 使用正则表达式替换页面内容
+        # 使用正则表达式替换页面内容，参数分别是
+        # 需要替换的URI的正则表达式，源字符串的正则表达式，替换后的字符串 
         SubsFilterRules('.', r'http://www\.douban\.com', '/.site.douban'),
         SubsFilterRules('.', r'http://img3\.douban\.com', '/.site.img3.douban'),
         SubsFilterRules('.', r'http://img5\.douban\.com', '/.site.img5.douban'),
