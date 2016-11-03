@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 # Created on 2014/11/13
-__author__ = 'restran'
 
-# 导入设置信息
-from urlparse import urlparse, urlunparse
 import re
 import logging
 
@@ -12,6 +9,7 @@ import tornado.ioloop
 import tornado.options
 import tornado.web
 import tornado.httpclient
+from urlparse import urlparse, urlunparse
 from tornado.web import HTTPError, asynchronous
 from tornado.httpclient import HTTPRequest
 from tornado.options import define, options
@@ -19,8 +17,9 @@ from tornado.options import define, options
 from subs_filter import SubsFilter
 from settings import config, forward_list
 
-
 logger = logging.getLogger(__name__)
+
+__author__ = 'restran'
 
 try:
     from tornado.curl_httpclient import CurlAsyncHTTPClient as AsyncHTTPClient
@@ -103,7 +102,6 @@ class ProxyHandler(tornado.web.RequestHandler):
 
             self._backend_site = forward_site
             return True, url, forward_site.netloc
-
 
     @asynchronous
     def get(self):
@@ -205,21 +203,20 @@ class ProxyHandler(tornado.web.RequestHandler):
             for (k, v) in response.headers.get_all():
                 if k == 'Server':
                     pass
-                elif k == 'Transfer-Encoding':
-                    if v == 'chunked':
-                        # 如果设置了分块传输编码，但是实际上代理这边已经完整接收数据
-                        # 到了浏览器端会导致(failed)net::ERR_INVALID_CHUNKED_ENCODING
-                        pass
+                elif k == 'Transfer-Encoding' and v.lower() == 'chunked':
+                    # 如果设置了分块传输编码，但是实际上代理这边已经完整接收数据
+                    # 到了浏览器端会导致(failed)net::ERR_INVALID_CHUNKED_ENCODING
+                    pass
                 elif k == 'Location':
                     self.set_header('Location', self._rewrite_location(v))
-                elif k.lower() == 'content-length':
+                elif k == 'Content-Length':
                     # 代理传输过程如果采用了压缩，会导致remote传递过来的content-length与实际大小不符
                     # 会导致后面self.write(response.body)出现错误
                     # 可以不设置remote headers的content-length
                     # "Tried to write more data than Content-Length")
                     # HTTPOutputError: Tried to write more data than Content-Length
                     pass
-                elif k.lower() == 'content-encoding':
+                elif k == 'Content-Encoding':
                     # 采用什么编码传给请求的客户端是由Server所在的HTTP服务器处理的
                     pass
                 elif k == 'Set-Cookie':
