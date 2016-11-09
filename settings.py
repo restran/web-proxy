@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 # Created on 2014/11/13
+from __future__ import unicode_literals
+
 __author__ = 'restran'
 
 import logging
@@ -28,6 +30,10 @@ class Config(object):
 
     # 站点变换的时候，是否清除旧站点的cookies
     is_to_clear_old_cookies = True
+    # 用来配置 ASYNC_HTTP_CLIENT 最大并发请求数量
+    # 如果后端网站响应很慢，就可能占用连接数，导致其他网站的代理也跟着慢
+    # 因此需要设置一个足够大的并发数量，默认是10
+    async_http_client_max_clients = 500
 
 
 class Development(Config):

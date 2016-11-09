@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # Created on 2014/11/13
+from __future__ import unicode_literals
 
 import re
 import logging
@@ -148,7 +149,7 @@ class ProxyHandler(tornado.web.RequestHandler):
             else:
                 body = None
 
-            AsyncHTTPClient().fetch(
+            AsyncHTTPClient(max_clients=config.async_http_client_max_clients).fetch(
                 HTTPRequest(url=url,
                             method=method,
                             body=body,
